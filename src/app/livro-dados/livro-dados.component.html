@@ -1,7 +1,7 @@
 <main class="container">
-  <h1 class="mt-4">Cadastro de Livro</h1>
+  <h1 class="mt-4">Cadastro de Livros</h1>
 
-  <form **ngSubmit**="incluir()" ngNativeValidate>
+  <form (ngSubmit)="incluir()">
     <div class="form-group">
       <label for="titulo">Título:</label>
       <input type="text" class="form-control" id="titulo" [(ngModel)]="livro.titulo" required>
@@ -9,12 +9,7 @@
 
     <div class="form-group">
       <label for="resumo">Resumo:</label>
-      <textarea class="form-control" id="resumo" [(ngModel)]="livro.resumo"></textarea>
-    </div>
-
-    <div class="form-group">
-      <label for="autores">Autores:</label>
-      <textarea class="form-control" id="autores" [(ngModel)]="autoresForm"></textarea>
+      <textarea class="form-control" id="resumo" [(ngModel)]="livro.resumo" required></textarea>
     </div>
 
     <div class="form-group">
@@ -22,6 +17,15 @@
       <select class="form-control" id="codEditora" [(ngModel)]="livro.codEditora" required>
         <option *ngFor="let editora of editoras" [value]="editora.codEditora">{{ editora.nome }}</option>
       </select>
+    </div>
+
+    <div class="form-group">
+      <label for="autores">Autores:</label>
+      <div *ngFor="let autor of livro.autores; let i = index">
+        <input type="text" class="form-control" [(ngModel)]="livro.autores[i]" placeholder="Autor {{ i + 1 }}">
+        <button type="button" class="btn btn-danger btn-sm mt-1" (click)="livro.autores.splice(i, 1)">Remover</button>
+      </div>
+      <button type="button" class="btn btn-success btn-sm mt-1" (click)="livro.autores.push('')">Adicionar Autor</button>
     </div>
 
     <button type="submit" class="btn btn-primary">Incluir</button>

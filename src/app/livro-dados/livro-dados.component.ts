@@ -1,44 +1,44 @@
 import { Component, OnInit } from '@angular/core';
-import { Livro } from '../livro';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { Editora } from '../editora';
+import { Livro } from '../livro';
 import { ControleEditoraService } from '../controle-editora.service';
 import { ControleLivrosService } from '../controle-livros.service';
-import { Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-livro-dados',
   templateUrl: './livro-dados.component.html',
   styleUrls: ['./livro-dados.component.css'],
   standalone: true,
-  imports: [FormsModule], 
+  imports: [CommonModule, FormsModule, RouterModule],
 })
 export class LivroDadosComponent implements OnInit {
-  livro: Livro = new Livro(0, '', '', [], 0); // Instância da classe Livro
-  autoresForm: string = '';
   editoras: Editora[] = [];
+  livro: Livro = new Livro(0, '', '', [], 0);
 
   private servEditora: ControleEditoraService;
   private servLivros: ControleLivrosService;
-  private router: Router;
 
   constructor(
     servEditora: ControleEditoraService,
-    servLivros: ControleLivrosService,
-    router: Router
+    servLivros: ControleLivrosService
   ) {
     this.servEditora = servEditora;
     this.servLivros = servLivros;
-    this.router = router;
   }
 
   ngOnInit(): void {
     this.editoras = this.servEditora.getEditoras();
   }
 
-  incluir = () => {
-    this.livro.autores = this.autoresForm.split('\n'); // Preenche o atributo autores
+  incluir(): void {
     this.servLivros.incluir(this.livro);
-    this.router.navigateByUrl('/lista'); // Navega para a rota /lista
+    this.livro = new Livro(0, '', '', [], 0);
+  }
+
+  obterNome = (codEditora: number) => {
+    return this.servEditora.getNomeEditora(codEditora);
   };
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router'; // Importe RouterModule
 import { Editora } from '../editora';
 import { Livro } from '../livro';
 import { ControleEditoraService } from '../controle-editora.service';
@@ -10,10 +11,8 @@ import { ControleLivrosService } from '../controle-livros.service';
   templateUrl: './livro-lista.component.html',
   styleUrls: ['./livro-lista.component.css'],
   standalone: true,
-  imports: [
-    CommonModule,
-    // Importe os módulos necessários aqui
-  ],
+  imports: [CommonModule, RouterModule],
+
 })
 export class LivroListaComponent implements OnInit {
   editoras: Editora[] = [];
